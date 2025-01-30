@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="col-lg-12 center">
+        <div class="card card-primary">
+            <div class="card-header">
+                <div class="card-title">
+                    Cadastrar Imagem
+                </div>
+            </div>            
+            <form action="{% if cliente %}/hub/update/{{ cliente.id }}/{% else %}/hub/create/{% endif %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form}}
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                    <a href="{% url 'hub' %}" class="btn btn-danger float-right"
+                    >Cancelar</a
+                    >
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
