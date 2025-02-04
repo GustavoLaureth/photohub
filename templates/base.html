@@ -8,7 +8,15 @@
 </head>
 
 <body>
-  <h1 style="color: blue">NESTE ARQUIVO FICARÁ A NAVBAR</h1>
+  <nav>
+    <div class="logo"><i class="fa-solid fa-camera"></i></div>     
+    <button onclick="location.href='{% url 'hub' %}'" class="btn1 butaum">Página inicial</button>
+    <button class="btn2 butaum">Explorar</button>
+    <button  onclick="location.href='{% url 'form' %}'" class="btn3 butaum">Criar</button>
+    <input type="text" class="pesquisar" placeholder="Pesquisar">
+</nav>
+<div class="slogan">Imagens que Inspiram. Ideias que Conectam.</div>
+
 
   {% block content %}{% endblock %}
 
