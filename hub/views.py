@@ -7,10 +7,7 @@ def hub(request):
     list_clientes = Cliente.objects.order_by('-data_criacao')
     myFilter = ClienteFilter(request.GET, queryset=list_clientes)
     list_clientes = myFilter.qs
-
-    paginator = Paginator(list_clientes, 10)
-    page = request.GET.get('page')
-    list_clientes = paginator.get_page(page)
+    
     return render(request, "hub/hub.html", {'clientes': list_clientes, 'myFilter': myFilter})
 
 def form(request):

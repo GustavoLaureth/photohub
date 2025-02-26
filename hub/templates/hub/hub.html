@@ -2,48 +2,20 @@
 {% load widget_tweaks %}
 
 {% block content %}
-<h1>Teste na página index</h1>
 
-<div class="row">
-    <div class="col">
-      <form method="get" class="form-inline">
-        <div class="form-group mb-2">
-            {% render_field myFilter.form.titulo placeholder="Pesquisar" class="form-control" id="id_titulo" autocomplete="off" %}
-        </div>
-      </form>
+<div class="hub">
+  {% for hub in clientes %}
+
+  <div class="photo">
+    <div class="img">
+        <img src="{{ hub.imagem.url }}" alt="{{ hub.titulo }}">
     </div>
-  </div>
+    <div class="title">
+        <p>{{ hub.titulo }}</p>
+    </div>
+</div>
 
-{% for hub in clientes %}
-<tr>
-    <td class="text-center num"><img src="{{ hub.imagem.url }}" alt="{{ hub.titulo }}"></td>
-    <td class="text-center num">{{ hub.titulo }}</td>
-    <td class="text-center">{{ hub.descricao }}</td>
-</tr>
-
-<td>
-    <a href="/hub/detalhe/{{ hub.id }}/" class="btn btn-outline-secondary">Visualizar</a>
-    <a href="/hub/edit/{{ hub.id }}/" class="btn btn-outline-primary">Editar</a>
-    <a href="/hub/delete/{{ hub.id }}/" class="btn btn-outline-danger">Excluir</a>
-</td>
-
-{% endfor %}
-
-<nav aria-label="Page navigation example">
-    <ul class="pagination">
-      {% for pagina in clientes.paginator.page_range %}
-      <!--  -->
-	      {% if clientes.number == pagina %}
-	      <li class="page-item active">
-	        <a class="page-link" href="?page={{pagina}}">{{pagina}}</a>
-	      </li>
-	      {% else %}
-	      <li class="page-item">
-	        <a class="page-link" href="?page={{pagina}}">{{pagina}}</a>
-	      </li>
-	      {% endif %}
-			{% endfor %}
-    </ul>
-  </nav>
+  {% endfor %}
+</div>
 
 {% endblock %}
