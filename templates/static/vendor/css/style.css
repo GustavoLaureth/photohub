@@ -1,8 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    font-family: "Inter", serif;
+    font-optical-sizing: auto;
+    font-style: normal;
 }
 
 .container {
@@ -11,15 +15,18 @@
 }
 
 .sideBar {
-    display: flex;
-    flex-direction: column;
+    position: fixed; /* Deixa a sidebar fixa */
+    top: 0;
+    left: 0;
     width: 72px;
     height: 100vh;
-    background-image: #fff;
+    background-color: #fff;
     padding: 12px;
     align-items: center;
     justify-content: space-between;
     border-right: 1px solid #e9e9e9;
+    display: flex;
+    flex-direction: column;
 }
 
 .shortCuts {
@@ -75,17 +82,23 @@
 }
 
 .main {
+    margin-left: 72px; /* Espaço para a sidebar fixa */
     display: flex;
     flex-direction: column;
     flex-grow: 1;
 }
 
 .navBar {
-    padding: 0 16px 0 24px;
-    width: 100%;
+    position: fixed; /* Deixa a navbar fixa */
+    top: 0;
+    left: 72px; /* Compensa a largura da sidebar */
+    width: calc(100% - 72px); /* Ajusta o tamanho da navbar */
     height: 80px;
     border-bottom: 1px solid #e9e9e9;
     display: flex;
+    background-color: white;
+    padding: 0 16px 0 24px;
+    z-index: 10; /* Para garantir que a navbar fique acima do conteúdo */
 }
 
 .navContent {
@@ -93,7 +106,6 @@
     width: 100%;
     padding: 12px 0;
 }
-
 
 .navContent > .input {
     flex-grow: 1.5;
@@ -129,29 +141,41 @@
 .content {
     display: flex;
     width: 100%;
-    padding: 20px;
+    padding: 120px 20px 20px 20px; /* Ajuste para a navbar fixa */
 }
 
 .hub {
     display: grid;
     width: 100%;
     gap: 20px;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
 }
 
 .photo {
     width: 100%;
+    transition: transform 0.3s ease-in-out;
+}
+
+.photo:hover {
+    transform: scale(1.05);
 }
 
 .photo > .img > img {
     width: 100%;
     border-radius: 20px;
+    object-fit: cover;
 }
 
 .photo > .title {
     display: flex;
     justify-content: left;
     margin-top: 5px;
-    font-weight: 600;
-    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
+
+@media (max-width: 768px) {
+    .hub {
+        gap: 10px;
+    }
 }
