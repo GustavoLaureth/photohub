@@ -7,4 +7,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-<link href="{% static 'vendor/css/style.css'%}" rel="stylesheet">
+
+{% if request.path == "/hub/form/" %}
+    <link href="{% static 'vendor/css/form.css'%}" rel="stylesheet">
+{% else %}
+    <link href="{% static 'vendor/css/style.css'%}" rel="stylesheet">
+{% endif %}

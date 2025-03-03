@@ -1,23 +1,78 @@
 {% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+<header>
+    <link href="{% static 'vendor/css/form.css'%}" rel="stylesheet">
+</header>
 
 {% block content %}
-    <div class="col-lg-12 center">
-        <div class="card card-primary">
-            <div class="card-header">
-                <div class="card-title">
-                    Cadastrar Imagem
-                </div>
-            </div>            
-            <form action="{% if cliente %}/hub/update/{{ cliente.id }}/{% else %}/hub/create/{% endif %}" method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{form}}
-                <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Salvar</button>
-                    <a href="{% url 'hub' %}" class="btn btn-danger float-right"
-                    >Cancelar</a
-                    >
-                </div>
-            </form>
+<div class="header">
+    <h1>Criar Postagem</h1>
+</div>
+
+<form action="{% if cliente %}/hub/update/{{ cliente.id }}/{% else %}/hub/create/{% endif %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <div class="form-content">
+        <div class="form-1">
+            <label for="file">
+                <p>
+                    <i class="fa-solid fa-arrow-up"></i><br><br>
+                    Escolha um arquivo ou arraste<br>e solte-o aqui
+                </p>
+                <input type="file" id="file" name="imagem" accept="image/*" style="display: none;" onchange="displayFile()">
+            </label>
+            <div class="file-name-div">
+                <img id="image-preview" src="" alt="Preview da imagem" style="display: none;">
+                <span id="file-name">Nenhum arquivo selecionado...</span>
+            </div>
+        </div>
+
+        <div class="form-2">
+            <input type="text" placeholder="Adicione um título" name="titulo">
+            <input type="text" placeholder="Adicione uma descrição detalhada" name="descricao">
+            {% render_field form.tags name="tags" %}
+            {% render_field form.data_criacao name="data_criacao" style="display: none;" %}
+            <button type="submit">Salvar</button>
         </div>
     </div>
+</form>
+
+<style>
+    #image-preview {
+        max-width: 50px;
+        max-height: 50px;
+        display: none;
+    }
+</style>
+
+<script>
+    function displayFile() {
+        var input = document.getElementById('file');
+        var fileName = document.getElementById('file-name');
+        var imagePreview = document.getElementById('image-preview');
+
+        if (input.files.length > 0) {
+            var file = input.files[0];
+            fileName.textContent = file.name;
+
+            // Verifica se é uma imagem
+            if (file.type.startsWith("image/")) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = "block";
+                }
+                reader.readAsDataURL(file);
+            } else {
+                imagePreview.style.display = "none";
+            }
+        } else {
+            fileName.textContent = "Nenhum arquivo selecionado...";
+            imagePreview.style.display = "none";
+        }
+    }
+</script>
+
 {% endblock %}
