@@ -11,28 +11,30 @@
     <h1>Criar Postagem</h1>
 </div>
 
-<form action="{% if cliente %}/hub/update/{{ cliente.id }}/{% else %}/hub/create/{% endif %}" method="POST" enctype="multipart/form-data">
+<form action="{% if cliente %}/hub/update/{{ cliente.id }}/{% else %}/hub/create/{% endif %}" 
+      method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     
     <div class="form-content">
         <div class="form-1">
-            <label for="file">
-                <p>
-                    <i class="fa-solid fa-arrow-up"></i><br><br>
-                    Escolha um arquivo ou arraste<br>e solte-o aqui
-                </p>
-                <input type="file" id="file" name="imagem" accept="image/*" style="display: none;" onchange="displayFile()">
+            <!-- Área de Drop -->
+            <label for="file" class="drop-area" id="drop-area">
+                <p><i class="fa-solid fa-arrow-up"></i><br><br>Escolha um arquivo ou arraste<br>e solte-o aqui</p>
+                <input type="file" id="file" name="imagem" accept="image/*" style="display: none;" required>
             </label>
+
             <div class="file-name-div">
+                <!-- Preview da Imagem -->
                 <img id="image-preview" src="" alt="Preview da imagem" style="display: none;">
+                <!-- Nome do Arquivo -->
                 <span id="file-name">Nenhum arquivo selecionado...</span>
             </div>
         </div>
-
+        
         <div class="form-2">
-            <input type="text" placeholder="Adicione um título" name="titulo">
-            <input type="text" placeholder="Adicione uma descrição detalhada" name="descricao">
-            {% render_field form.tags name="tags" %}
+            <input type="text" placeholder="Adicione um título" name="titulo" required>
+            <input type="text" placeholder="Adicione uma descrição detalhada" name="descricao" required>
+            {% render_field form.tags name="tags" required="required" %}
             {% render_field form.data_criacao name="data_criacao" style="display: none;" %}
             <button type="submit">Salvar</button>
         </div>
@@ -40,7 +42,38 @@
 </form>
 
 <style>
+    /* Estilo da área de drop */
+    .drop-area {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 150px;
+        border: 2px dashed #6200ea;
+        border-radius: 10px;
+        background-color: #f8f8f8;
+        text-align: center;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out;
+    }
+
+    /* Quando um arquivo é arrastado para dentro da área */
+    .drop-area.highlight {
+        background-color: #e0e0ff;
+        border-color: #4500b3;
+    }
+
+    /* Nome do arquivo */
+    #file-name {
+        font-size: 14px;
+        color: #555;
+        display: block;
+    }
+
+    /* Estilo da imagem de preview */
     #image-preview {
+        margin-right: 10px;
         max-width: 50px;
         max-height: 50px;
         display: none;
@@ -48,31 +81,58 @@
 </style>
 
 <script>
-    function displayFile() {
-        var input = document.getElementById('file');
-        var fileName = document.getElementById('file-name');
-        var imagePreview = document.getElementById('image-preview');
+    // Seleciona os elementos
+    const dropArea = document.getElementById('drop-area');
+    const fileInput = document.getElementById('file');
+    const fileNameDisplay = document.getElementById('file-name');
+    const imagePreview = document.getElementById('image-preview');
 
-        if (input.files.length > 0) {
-            var file = input.files[0];
-            fileName.textContent = file.name;
+    // Adiciona os eventos de arrastar e soltar
+    dropArea.addEventListener('dragover', (event) => {
+        event.preventDefault(); // Previne o comportamento padrão
+        dropArea.classList.add('highlight');
+    });
 
-            // Verifica se é uma imagem
-            if (file.type.startsWith("image/")) {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    imagePreview.src = e.target.result;
-                    imagePreview.style.display = "block";
-                }
-                reader.readAsDataURL(file);
-            } else {
-                imagePreview.style.display = "none";
-            }
+    dropArea.addEventListener('dragleave', () => {
+        dropArea.classList.remove('highlight');
+    });
+
+    dropArea.addEventListener('drop', (event) => {
+        event.preventDefault();
+        dropArea.classList.remove('highlight');
+
+        // Pega os arquivos arrastados
+        let file = event.dataTransfer.files[0];
+
+        if (file) {
+            fileInput.files = event.dataTransfer.files;
+            updateFileDisplay(file);
+        }
+    });
+
+    // Atualiza o nome do arquivo e o preview da imagem
+    function updateFileDisplay(file) {
+        fileNameDisplay.textContent = file.name;
+
+        if (file.type.startsWith("image/")) {
+            let reader = new FileReader();
+            reader.onload = (e) => {
+                imagePreview.src = e.target.result;
+                imagePreview.style.display = "block";
+            };
+            reader.readAsDataURL(file);
         } else {
-            fileName.textContent = "Nenhum arquivo selecionado...";
             imagePreview.style.display = "none";
         }
     }
+
+    // Quando o usuário seleciona um arquivo pelo input
+    fileInput.addEventListener('change', () => {
+        if (fileInput.files.length > 0) {
+            updateFileDisplay(fileInput.files[0]);
+        }
+    });
 </script>
+
 
 {% endblock %}

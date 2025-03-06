@@ -27,7 +27,9 @@
         <section class="navBar">
             <div class="navContent">
                 <div class="input">
-                    <input type="search" placeholder="Pesquisar">
+                    <form method="GET" action="{% url 'hub' %}">
+                        <input class="input-filter" type="search" name="search" placeholder="Pesquisar" value="{{ request.GET.search }}">
+                    </form>
                 </div>
                 <div class="user">
                     <a href=""><img src="{% static 'img/user.png' %}" alt="User"></a>

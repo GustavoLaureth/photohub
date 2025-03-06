@@ -1,7 +1,6 @@
 from django.shortcuts import redirect, render
 from .form import ClienteForm, Cliente
 from .filters import ClienteFilter
-from django.core.paginator import Paginator
 
 def hub(request):
     list_clientes = Cliente.objects.order_by('-data_criacao')
