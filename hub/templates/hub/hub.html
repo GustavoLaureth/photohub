@@ -9,7 +9,7 @@
 
   <div class="photo">
     <div class="img">
-        <img src="{{ hub.imagem.url }}" alt="{{ hub.titulo }}">
+        <img src="{{ hub.imagem.url }}" alt="{{ hub.titulo }}" onclick="openModal('{{ hub.imagem.url }}')">
     </div>
     <div class="title">
         <p>{{ hub.titulo }}</p>
@@ -17,6 +17,27 @@
 </div>
 
   {% endfor %}
+
+  <div id="imageModal" class="modal" onclick="closeModal()">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="modalImg">
+  </div>
+
+
 </div>
+
+<script>
+  
+  function openModal(imageSrc) {
+    document.getElementById("imageModal").style.display = "flex";
+    document.getElementById("modalImg").src = imageSrc;
+}
+
+function closeModal() {
+    document.getElementById("imageModal").style.display = "none";
+}
+
+
+</script>
 
 {% endblock %}
