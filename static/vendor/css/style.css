@@ -1,0 +1,226 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.sideBar {
+    position: fixed; /* Deixa a sidebar fixa */
+    top: 0;
+    left: 0;
+    width: 72px;
+    height: 100vh;
+    background-color: #fff;
+    padding: 12px;
+    align-items: center;
+    justify-content: space-between;
+    border-right: 1px solid #e9e9e9;
+    display: flex;
+    flex-direction: column;
+}
+
+.shortCuts {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+.shortCuts > .logo {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.shortCuts > .logo > img {
+    width: 35px;
+    height: 35px;
+}
+
+.shortCuts > a {
+    width: 48px;
+    height: 48px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    text-decoration: none;
+    color: #000;
+}
+
+.shortCuts > a > i {
+    font-size: 24px;
+}
+
+.settings {
+    display: flex;
+}
+
+.settings > a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 48px;
+    height: 48px;
+    text-decoration: none;
+    color: #000;
+}
+
+.settings > a > i {
+    font-size: 24px;
+}
+
+.main {
+    margin-left: 72px; /* Espaço para a sidebar fixa */
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.navBar {
+    position: fixed; /* Deixa a navbar fixa */
+    top: 0;
+    left: 72px; /* Compensa a largura da sidebar */
+    width: calc(100% - 72px); /* Ajusta o tamanho da navbar */
+    height: 80px;
+    border-bottom: 1px solid #e9e9e9;
+    display: flex;
+    background-color: white;
+    padding: 0 16px 0 24px;
+    z-index: 10; /* Para garantir que a navbar fique acima do conteúdo */
+}
+
+.navContent {
+    display: flex;
+    width: 100%;
+    padding: 12px 0;
+}
+
+.navContent > .input {
+    flex-grow: 1.5;
+}
+
+.navContent > .user {
+    flex-grow: 0.1;
+}
+
+.input-filter {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 16px;
+    outline: none;
+    padding: 16px;
+    color: #333333;
+    background-color: #f1f1f1;
+    font-size: 16px;
+}
+
+.user {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.user > a > img {
+    width: 50px;
+    height: 50px;
+}
+
+.content {
+    display: flex;
+    width: 100%;
+    padding: 120px 20px 20px 20px; /* Ajuste para a navbar fixa */
+}
+
+.hub {
+    display: grid;
+    width: 100%;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+.photo {
+    width: 100%;
+    transition: transform 0.3s ease-in-out;
+}
+
+.photo:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+.photo > .img > img {
+    width: 100%;
+    border-radius: 20px;
+    object-fit: cover;
+}
+
+.photo > .title {
+    display: flex;
+    justify-content: left;
+    margin-top: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Estiliza o modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+}
+
+/* Estiliza a imagem dentro do modal */
+.modal-content {
+    max-width: 70%;
+    max-height: 70%;
+    display: block;
+    margin: auto;
+}
+
+/* Botão de fechar */
+.close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    color: white;
+    background-color: #949494;
+    font-size: 30px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+
+
+
+@media (max-width: 768px) {
+    .hub {
+        gap: 10px;
+    }
+}
