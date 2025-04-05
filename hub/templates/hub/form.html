@@ -34,7 +34,16 @@
         <div class="form-2">
             <input type="text" placeholder="Adicione um título" name="titulo" required>
             <input type="text" placeholder="Adicione uma descrição detalhada" name="descricao" required>
-            {% render_field form.tags name="tags" required="required" %}
+            <div class="tags-wrapper">
+                <label>Selecione até 3 tags:</label>
+                <div class="tag-options">
+                    {% for checkbox in form.tags %}
+                        <label class="tag-chip">
+                            {{ checkbox.tag }} {{ checkbox.choice_label }}
+                        </label>
+                    {% endfor %}
+                </div>
+            </div>
             {% render_field form.data_criacao name="data_criacao" style="display: none;" %}
             <button type="submit">Salvar</button>
         </div>
@@ -42,6 +51,42 @@
 </form>
 
 <style>
+    .tag-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .tag-chip {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background-color: #e0e0e0;
+        color: #333;
+        padding: 8px 12px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: background 0.3s ease;
+    }
+
+    .tag-chip:hover {
+        background-color: #d1cfcf;
+    }
+
+    .tag-chip input[type="checkbox"] {
+        accent-color: #5755ff;
+        transform: scale(1.2);
+    }
+
+
+
+
+
+
+
+
     /* Estilo da área de drop */
     .drop-area {
         display: flex;
@@ -131,6 +176,25 @@
         if (fileInput.files.length > 0) {
             updateFileDisplay(fileInput.files[0]);
         }
+    });
+
+
+
+
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const checkboxes = document.querySelectorAll('input[name="tags"]');
+
+        checkboxes.forEach(cb => {
+            cb.addEventListener("change", () => {
+                const checked = document.querySelectorAll('input[name="tags"]:checked');
+                if (checked.length > 3) {
+                    cb.checked = false;
+                    // alert("Você só pode selecionar até 3 tags.");
+                }
+            });
+        });
     });
 </script>
 

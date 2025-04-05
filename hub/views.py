@@ -1,6 +1,9 @@
 from django.shortcuts import redirect, render
 from .form import ClienteForm, Cliente
 from .filters import ClienteFilter
+import random
+from collections import defaultdict
+from .models import Tag, Cliente
 
 def hub(request):
     list_clientes = Cliente.objects.order_by('-data_criacao')
@@ -43,3 +46,23 @@ def delete(request, pk):
     cliente = Cliente.objects.get(pk=pk)
     cliente.delete()
     return redirect('hub')
+
+def explorer(request):
+    clientes = Cliente.objects.prefetch_related('tags').all()
+
+    tags_dict = defaultdict(list)
+
+    for cliente in clientes:
+        for tag in cliente.tags.all():
+            tags_dict[tag.id].append(cliente)
+        
+    tags_com_imagem = []
+    for tag_id, clientes_da_tag in tags_dict.items():
+        if clientes_da_tag:
+            cliente_aleatorio = random.choice(clientes_da_tag)
+            tags_com_imagem.append({
+                'tag': clientes_da_tag[0].tags.get(id=tag_id),
+                'imagem': cliente_aleatorio.imagem.url if cliente_aleatorio.imagem else None,
+            })
+    
+    return render(request, "hub/explorer.html", {'tags_com_imagem': tags_com_imagem,})

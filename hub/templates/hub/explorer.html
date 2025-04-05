@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+<style>
+    .content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .explorer-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .tag-card {
+        position: relative;
+        width: 100%;
+        min-width: 250px;
+        height: 200px;
+        border-radius: 35px;
+        overflow: hidden;
+        text-decoration: none;
+        color: white;
+        transition: transform 0.2s ease;
+    }
+
+    .tag-card:hover {
+        transform: scale(1.03);
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+    }
+
+    .tag-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: brightness(60%);
+        transition: filter 0.3s ease;
+    }
+
+    .tag-card:hover img {
+        filter: brightness(50%);
+    }
+
+    .tag-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: end;
+        background: rgba(0, 0, 0, 0.3); /* leve escurecimento */
+        padding: 10px;
+    }
+
+    .tag-overlay span {
+        font-size: 1.2rem;
+        font-weight: bold;
+        padding: 8px 16px;
+        border-radius: 8px;
+    }
+</style>
+
+<div class="explorer-grid">
+    {% for item in tags_com_imagem %}
+        <a href="{% url 'hub' %}?search={{ item.tag.nome }}" class="tag-card">
+            {% if item.imagem %}
+                <img src="{{ item.imagem }}" alt="{{ item.tag.nome }}">
+            {% else %}
+                <div style="width: 100%; height: 100%; background-color: #999;"></div>
+            {% endif %}
+            <div class="tag-overlay">
+                <span>{{ item.tag.nome }}</span>
+            </div>
+        </a>
+    {% endfor %}
+</div>
+
+{% endblock %}

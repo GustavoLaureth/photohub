@@ -16,7 +16,7 @@
                 <img src="{% static 'img/icon.png' %}" alt="Logo">
             </div>
             <a href="{% url 'hub' %}" class="homePage"><i class="fa-solid fa-house"></i></a>
-            <a href="/" class="explorer"><i class="fa-solid fa-compass"></i></a>
+            <a href="{% url 'explorer' %}"><i class="fa-solid fa-compass"></i></a>
             <a href="{% url 'form' %}" class="create"><i class="fa-solid fa-square-plus"></i></a>
         </div>
         <div class="settings">
